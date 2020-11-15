@@ -1,13 +1,12 @@
 package com.wedul.hibernate_test.study.generated;
 
 import com.wedul.hibernate_test.study.generated.dto.Person;
-import com.wedul.hibernate_test.study.generated.service.PersonService;
+import com.wedul.hibernate_test.study.generated.service.GeneratedService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 
@@ -17,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PersonServiceTest {
 
     @Autowired
-    private PersonService personService;
+    private GeneratedService personService;
 
     @Test
     @DisplayName("@Generated 동작 테스트")
