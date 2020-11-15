@@ -1,5 +1,6 @@
 package com.wedul.hibernate_test.study.generated;
 
+import com.wedul.hibernate_test.study.generated.dto.Event;
 import com.wedul.hibernate_test.study.generated.dto.Person;
 import com.wedul.hibernate_test.study.generated.service.GeneratedService;
 import org.junit.jupiter.api.DisplayName;
@@ -8,21 +9,46 @@ import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class PersonServiceTest {
+class GeneratedServiceTest {
 
     @Autowired
-    private GeneratedService personService;
+    private GeneratedService generatedService;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
-    @DisplayName("@Generated 동작 테스트")
-    @Transactional
-    void generated_annotation_test() {
+    @DisplayName("CreationTimestamp와 UpdateTimestamp 기능 테스트")
+    void timestamp_annotaion_test() {
+        // given
+        Event event = new Event();
+        event.setName("wedul");
 
+        // when
+        event = updateEvent(event);
+
+        // then
+        assertThat(event.getTimestamp()).isBefore(event.getUpdatedOn());
+    }
+
+    @Transactional
+    Event updateEvent(Event event) {
+        event = generatedService.event(event);
+        event.setName("cho");
+        event = generatedService.event(event);
+        return event;
+    }
+
+    @Test
+    @DisplayName("@Generated 컬럼 동작 테스트")
+    void generated_annotation_test() {
+        // given
         Person person = new Person();
         person.setFirstName("we");
         person.setLastName("dul");
@@ -32,9 +58,10 @@ public class PersonServiceTest {
         person.setMiddleName4("4");
         person.setMiddleName5("5");
 
-        person = personService.person(person);
+        // when
+        person = generatedService.person(person);
 
-        System.out.println(fullName(person));
+        // then
         assertThat(person.getFullName()).isEqualTo(fullName(person));
     }
 
