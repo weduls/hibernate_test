@@ -1,5 +1,6 @@
 package com.wedul.hibernate_test.study.generated;
 
+import com.wedul.hibernate_test.study.generated.dto.Employee;
 import com.wedul.hibernate_test.study.generated.dto.Event;
 import com.wedul.hibernate_test.study.generated.dto.Person;
 import com.wedul.hibernate_test.study.generated.service.GeneratedService;
@@ -43,6 +44,24 @@ class GeneratedServiceTest {
         event.setName("cho");
         event = generatedService.event(event);
         return event;
+    }
+
+    @Test
+    @DisplayName("컬럼 트랜스포머 테스트")
+    void column_trans_former_test() {
+
+        // given
+        String password = "wedul";
+        Employee employee = Employee.builder()
+            .password(password)
+            .accessLevel(1)
+            .build();
+
+        // when
+        employee = generatedService.employee(employee);
+
+        // then
+        assertThat(employee.getPassword()).isEqualTo(password);
     }
 
     @Test
