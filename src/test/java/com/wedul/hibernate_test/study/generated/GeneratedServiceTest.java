@@ -1,5 +1,6 @@
 package com.wedul.hibernate_test.study.generated;
 
+import com.wedul.hibernate_test.study.generated.dto.Account;
 import com.wedul.hibernate_test.study.generated.dto.Employee;
 import com.wedul.hibernate_test.study.generated.dto.Event;
 import com.wedul.hibernate_test.study.generated.dto.Person;
@@ -10,7 +11,6 @@ import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,9 +20,6 @@ class GeneratedServiceTest {
 
     @Autowired
     private GeneratedService generatedService;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Test
     @DisplayName("CreationTimestamp와 UpdateTimestamp 기능 테스트")
@@ -59,6 +56,7 @@ class GeneratedServiceTest {
 
         // when
         employee = generatedService.employee(employee);
+        employee = generatedService.getEmployee(employee.getId());
 
         // then
         assertThat(employee.getPassword()).isEqualTo(password);
@@ -82,6 +80,25 @@ class GeneratedServiceTest {
 
         // then
         assertThat(person.getFullName()).isEqualTo(fullName(person));
+    }
+
+    @Test
+    @DisplayName("@Formular Test")
+    void formular_test() {
+        // given
+        double credit = 123.0;
+        double rate = 1.2;
+
+        Account account = new Account();
+        account.setCredit(credit);
+        account.setRate(rate);
+
+        // when
+        account = generatedService.account(account);
+        account = generatedService.getAccount(account.getId());
+
+        // then
+        assertThat(account.getInterest()).isEqualTo(credit * rate);
     }
 
     private String fullName(Person person) {
